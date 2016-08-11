@@ -27,6 +27,8 @@
 let mapleader = ','
 let g:mapleader = ','
 
+" let g:NERDTreeMapOpenInTabSilent = '<2-LeftMouse>'
+
 " 开启语法高亮
 syntax on
 
@@ -72,6 +74,8 @@ set nobackup
 " 关闭交换文件
 set noswapfile
 
+" 复制到剪切板
+" set clipboard=unnamed
 
 " TODO: remove this, use gundo
 " create undo file
@@ -100,9 +104,9 @@ set t_ti= t_te=
 
 
 " 鼠标暂不启用, 键盘党....
-set mouse-=a
+" set mouse-=a
 " 启用鼠标
-" set mouse=a
+set mouse=a
 " Hide the mouse cursor while typing
 " set mousehide
 
@@ -141,7 +145,7 @@ set showcmd
 set showmode
 
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
-set scrolloff=7
+set scrolloff=3
 
 " set winwidth=79
 
@@ -281,7 +285,7 @@ autocmd! bufwritepost .vimrc source %
 
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-set completeopt=longest,menu
+set completeopt=longest,menu " ,preview
 
 " 增强模式中的命令行自动完成操作
 set wildmenu
@@ -289,7 +293,7 @@ set wildmenu
 set wildignore=*.o,*~,*.pyc,*.class
 
 " 离开插入模式后自动关闭预览窗口
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+" autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " 回车即选中当前项
 inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
@@ -423,7 +427,8 @@ cnoremap <C-e> <End>
 
 " 搜索相关
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
+" Remove this map by @insane
+" map <space> /
 " 进入搜索Use sane regexes"
 nnoremap / /\v
 vnoremap / /\v
@@ -439,8 +444,8 @@ nnoremap <silent> g* g*zz
 noremap <silent><leader>/ :nohls<CR>
 
 " switch # *
-nnoremap # *
-nnoremap * #
+" nnoremap # *
+" nnoremap * #
 
 " for # indent, python文件中输入新行时#号注释不切回行首
 autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
@@ -454,7 +459,8 @@ nnoremap ]b :bnext<cr>
 " 使用方向键切换buffer
 noremap <left> :bp<CR>
 noremap <right> :bn<CR>
-
+noremap <leader>bb :ls<CR>:b 
+set wildchar=<Tab> wildmenu wildmode=full
 
 " tab 操作
 " http://vim.wikia.com/wiki/Alternative_tab_navigation
@@ -545,8 +551,8 @@ nnoremap <leader>q :q<CR>
 nnoremap <leader>w :w<CR>
 
 " 交换 ' `, 使得可以快速使用'跳到marked位置
-nnoremap ' `
-nnoremap ` '
+" nnoremap ' `
+" nnoremap ` '
 
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
@@ -685,4 +691,22 @@ highlight SpellLocal term=underline cterm=underline
 
 
 
+" Custom setting by insane
 
+" record open buffers
+" exec 'set viminfo=%,' . &viminfo
+" close preview window after completion
+" autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+" autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+" show preview window below
+" autocmd InsertEnter * if pumvisible() == 0|set splitbelow|endif
+" autocmd InsertLeave * if pumvisible() == 0|set splitbelow!|endif
+
+set previewheight=6
+
+" short key to show doc 
+inoremap <leader>j <ESC>:YcmCompleter GetDoc<CR>a
+nnoremap <leader>j :YcmCompleter GetDoc<CR>
+" nnoremap <space> a<space><esc>
+
+set splitright

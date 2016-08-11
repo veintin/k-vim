@@ -27,6 +27,10 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
+" 自动切换输入法插件
+" Plug 'ybian/smartim'
+" Plug 'CodeFalling/fcitx-vim-osx'
+
 " 移动光标到插件名上, 使用'#'快速跳转到每个插件的配置处
 
 " syntastic
@@ -111,6 +115,9 @@ Plug 'dyng/ctrlsf.vim'
 " quickrun
 Plug 'thinca/vim-quickrun'
 
+" python
+Plug 'jmcantrell/vim-virtualenv'
+
 " git
 " fugitive
 Plug 'tpope/vim-fugitive'
@@ -140,6 +147,7 @@ Plug 'tomasr/molokai'
 " nav
 " nerdtree nerdtreetabs
 Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
+" autocmd VimEnter * NERDTree
 " ctrlspace
 Plug 'szw/vim-ctrlspace'
 " tagbar
@@ -162,13 +170,15 @@ if count(g:bundle_groups, 'tmux')
 endif
 
 if count(g:bundle_groups, 'markdown')
-    Plug 'plasticboy/vim-markdown', {'for': 'md'}
+    Plug 'godlygeek/tabular'
+    Plug 'plasticboy/vim-markdown' ", {'for': 'md'}
+    let g:vim_markdown_math = 1
     " https://github.com/suan/vim-instant-markdown
     " npm -g install instant-markdown-d
-    " Plug 'suan/vim-instant-markdown'
+    Plug 'suan/vim-instant-markdown' ", {'for': 'md'}
     " let g:instant_markdown_slow = 1
-    " let g:instant_markdown_autostart = 0
-    " map <F12> :InstantMarkdownPreview<CR>
+    let g:instant_markdown_autostart = 0
+    map <F12> :InstantMarkdownPreview<CR>
 endif
 
 if count(g:bundle_groups, 'golang')
@@ -288,7 +298,7 @@ call plug#end()
     " 中等
     " error code: http://pep8.readthedocs.org/en/latest/intro.html#error-codes
     let g:syntastic_python_checkers=['pyflakes', 'pep8'] " 使用pyflakes,速度比pylint快
-    let g:syntastic_python_pep8_args='--ignore=E501,E225,E124,E712'
+    let g:syntastic_python_pep8_args='--ignore=E501,E225,E124,E712,W391'
     " 重量级, 但是足够强大, 定制完成后相当个性化
     " pylint codes: http://pylint-messages.wikidot.com/all-codes
     " let g:syntastic_python_checkers=['pyflakes', 'pylint'] " 使用pyflakes,速度比pylint快
@@ -352,7 +362,8 @@ call plug#end()
 " YouCompleteMe {{{
     "youcompleteme  默认tab  s-tab 和自动补全冲突
     "let g:ycm_key_list_select_completion=['<c-n>']
-    let g:ycm_key_list_select_completion = ['<Down>']
+    "let g:ycm_key_list_select_completion = ['<Down>']
+    let g:ycm_key_list_select_completion = ['<Tab>']
     "let g:ycm_key_list_previous_completion=['<c-p>']
     let g:ycm_key_list_previous_completion = ['<Up>']
     let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
@@ -363,12 +374,13 @@ call plug#end()
     " 开启语法关键字补全
     let g:ycm_seed_identifiers_with_syntax=1
 
-    "let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
+    " let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
     " 跳转到定义处, 分屏打开
     let g:ycm_goto_buffer_command = 'horizontal-split'
     " nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+    nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
     " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
@@ -602,8 +614,14 @@ call plug#end()
     let g:airline_symbols.branch = '⎇'
     " 是否打开tabline
     " let g:airline#extensions#tabline#enabled = 1
+    " Open virtualenv
+    let g:airline#extensions#virtualenv#enabled = 1
 " }}}
 
+
+" virtualenv {{{
+    let g:virtualenv_directory = "~/"
+" }}}
 
 
 " rainbow_parentheses {{{
@@ -654,6 +672,11 @@ call plug#end()
 " ################### 快速导航 ###################
 
 " nerdtree nerdtreetabs {{{
+    " enable line numbers
+    let NERDTreeShowLineNumbers=1
+    " make sure relative line numbers are used
+    autocmd FileType nerdtree setlocal relativenumber
+
     map <leader>n :NERDTreeToggle<CR>
     let NERDTreeHighlightCursorline=1
     let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
@@ -798,7 +821,7 @@ call plug#end()
 " beta {{{
     " python code format
     " format all file
-    autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
+    " autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
     " format select block
     " autocmd FileType python vnoremap <leader>y :!yapf<Cr>
 
@@ -810,4 +833,14 @@ call plug#end()
     " nnoremap <leader>y :call Yapf()<cr>
 " }}}
 
+
+" custom setting by insane
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Open NERDTree by default
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" autocmd VimEnter * NERDTree
+" autocmd VimEnter * wincmd p
+
+
 "------------------------------------------- end of configs --------------------------------------------
+" Custom by @insane
