@@ -31,6 +31,7 @@ let g:mapleader = ','
 
 " 开启语法高亮
 syntax on
+syntax enable
 
 " install bundles
 if filereadable(expand("~/.vimrc.bundles"))
@@ -102,7 +103,7 @@ set cursorline
 
 " 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制, 不需要可以去掉
 " 好处：误删什么的，如果以前屏幕打开，可以找回
-set t_ti= t_te=
+" set t_ti= t_te=
 
 
 " 鼠标暂不启用, 键盘党....
@@ -417,7 +418,7 @@ noremap L $
 
 
 " Map ; to : and save a million keystrokes 用于快速进入命令行
-nnoremap ; :
+" nnoremap ; :
 
 
 " 命令行模式增强，ctrl - a到行首， -e 到行尾
@@ -650,7 +651,7 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guifont=Monaco:h14
+    set guifont=Monaco:h12
     if has("gui_gtk2")   "GTK2
         set guifont=Monaco\ 12,Monospace\ 12
     endif
@@ -670,11 +671,14 @@ endif
 " theme主题
 set background=dark
 set t_Co=256
-
+" solar options
+let g:solarized_termcolors=256
+let g:solarized_contrast = "high"
+let g:solarized_visibility = "high"
+let g:solarized_termtrans = 1
 colorscheme solarized
 " colorscheme molokai
 " colorscheme desert
-
 
 " 设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr
@@ -712,3 +716,19 @@ nnoremap <leader>j :YcmCompleter GetDoc<CR>
 " nnoremap <space> a<space><esc>
 
 set splitright
+
+" switch cursor between box and vertical bar
+if exists('$ITERM_PROFILE')
+  if exists('$TMUX')
+    let &t_SI = "\<Esc>[3 q"
+    let &t_EI = "\<Esc>[0 q"
+  else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  endif
+end
+
+nnoremap <F8> :!node %<CR>
+"highlight LineNr ctermbg=235
+"highlight CursorColumn ctermbg=236
+"highlight CursorLine ctermbg=236
