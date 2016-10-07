@@ -31,7 +31,6 @@ let g:mapleader = ','
 
 " 开启语法高亮
 syntax on
-syntax enable
 
 " install bundles
 if filereadable(expand("~/.vimrc.bundles"))
@@ -78,7 +77,7 @@ set nobackup
 set noswapfile
 
 " 复制到剪切板
-" set clipboard=unnamed
+set clipboard=unnamed
 
 " TODO: remove this, use gundo
 " create undo file
@@ -418,7 +417,7 @@ noremap L $
 
 
 " Map ; to : and save a million keystrokes 用于快速进入命令行
-" nnoremap ; :
+nnoremap ; :
 
 
 " 命令行模式增强，ctrl - a到行首， -e 到行尾
@@ -669,13 +668,13 @@ endif
 
 
 " theme主题
+syntax enable
 set background=dark
 set t_Co=256
 " solar options
-let g:solarized_termcolors=256
-let g:solarized_contrast = "high"
-let g:solarized_visibility = "high"
-let g:solarized_termtrans = 1
+" DONNOT add line below, it will make vim in xterm YELLOW
+" let g:solarized_termcolors=256
+" let g:solarized_visibility = "high"
 colorscheme solarized
 " colorscheme molokai
 " colorscheme desert
@@ -718,17 +717,23 @@ nnoremap <leader>j :YcmCompleter GetDoc<CR>
 set splitright
 
 " switch cursor between box and vertical bar
-if exists('$ITERM_PROFILE')
-  if exists('$TMUX')
-    let &t_SI = "\<Esc>[3 q"
-    let &t_EI = "\<Esc>[0 q"
-  else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  endif
-end
+" if exists('$ITERM_PROFILE')
+    if exists('$TMUX')
+        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    else
+        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    endif
+" endif
 
+" space
+nnoremap <space> :let @/="\\\<<c-r><c-w>\\\>"\|set hlsearch<CR>
+
+" tmp
 nnoremap <F8> :!node %<CR>
-"highlight LineNr ctermbg=235
-"highlight CursorColumn ctermbg=236
-"highlight CursorLine ctermbg=236
+
+if filereadable(expand("~/.vimrc.bundles.omnisharp"))
+    source ~/.vimrc.bundles.omnisharp
+endif
+
