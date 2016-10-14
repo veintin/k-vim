@@ -19,6 +19,12 @@
 "       -> 插件配置和具体设置在vimrc.bundles中
 "==========================================
 
+if has("unix")
+  let s:uname = system("echo -n \"$(uname)\"")
+else
+  let s:uname = "Windows"
+endif
+
 "==========================================
 " Initial Plugin 加载插件
 "==========================================
@@ -733,7 +739,9 @@ nnoremap <space> :let @/="\\\<<c-r><c-w>\\\>"\|set hlsearch<CR>
 " tmp
 nnoremap <F8> :!node %<CR>
 
-if filereadable(expand("~/.vimrc.bundles.omnisharp"))
-    source ~/.vimrc.bundles.omnisharp
+if s:uname != "Linux"
+    if filereadable(expand("~/.vimrc.bundles.omnisharp"))
+        source ~/.vimrc.bundles.omnisharp
+    endif
 endif
 
