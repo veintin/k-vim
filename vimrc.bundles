@@ -405,6 +405,8 @@ call plug#end()
     let g:ycm_filetype_blacklist = {
         \ 'tagbar' : 1,
         \ 'gitcommit' : 1,
+        \ '__CtrlSF__' : 1,
+        \ 'ctrlsf' : 1,
         \}
 " }}}
 
@@ -561,13 +563,16 @@ call plug#end()
 
 
 " ctrlsf {{{
-    nmap \ <Plug>CtrlSFCwordPath<CR>
+"    nmap \ <Plug>CtrlSFCwordPath<CR>
+    nnoremap \ :CtrlSF -R "\b<c-r><c-w>\b"<cr>
     nnoremap <leader>f :CtrlSF 
     nnoremap <leader>t :CtrlSFToggle<CR>
     " let g:ctrlsf_position = 'below'
     " let g:ctrlsf_winsize = '30%'
+    let g:ctrlsf_context = '-B 2 -A 2'
     let g:ctrlsf_auto_close = 0
     let g:ctrlsf_confirm_save = 0
+    let g:ctrlsf_position = 'bottom'
     " Note: cannot use <CR> or <C-m> for open
     " Use : <sapce> or <tab>
     let g:ctrlsf_mapping = {
