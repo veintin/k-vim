@@ -277,7 +277,18 @@ if count(g:bundle_groups, 'beta')
 endif
 
 Plug 'tpope/vim-dispatch'
-Plug 'OmniSharp/omnisharp-vim'
+
+" Disable OmniSharp in Linux
+if has("unix")
+  let s:uname = system("echo -n \"$(uname)\"")
+else
+  let s:uname = "Windows"
+endif
+if s:uname != "Linux"
+    if filereadable(expand("~/.vimrc.bundles.omnisharp"))
+        Plug 'OmniSharp/omnisharp-vim'
+    endif
+endif
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -378,7 +389,7 @@ call plug#end()
     let g:ycm_seed_identifiers_with_syntax=1
 
     " 设置python解释器路径，解决 tensorflow virtualenv 下ycmd启动失败的问题
-    let g:ycm_server_python_interpreter = "/usr/local/bin/python"
+"    let g:ycm_server_python_interpreter = "/usr/bin/python"
 
     " let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
