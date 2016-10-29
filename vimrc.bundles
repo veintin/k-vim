@@ -289,6 +289,7 @@ endif
 if s:uname != "Linux"
     if filereadable(expand("~/.vimrc.bundles.omnisharp"))
         Plug 'OmniSharp/omnisharp-vim'
+        source ~/.vimrc.bundles.omnisharp
     endif
 endif
 
@@ -390,8 +391,9 @@ call plug#end()
     " 开启语法关键字补全
     let g:ycm_seed_identifiers_with_syntax=1
 
-    " 设置python解释器路径，解决 tensorflow virtualenv 下ycmd启动失败的问题
-"    let g:ycm_server_python_interpreter = "/usr/bin/python"
+    " 设置python解释器路径，设置为当前环境的解释器
+    let s:python_interpreter = system("echo -n \"$(which python)\"")
+    let g:ycm_server_python_interpreter = s:python_interpreter
 
     " let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
@@ -578,11 +580,12 @@ call plug#end()
 " ctrlsf {{{
 "    nmap \ <Plug>CtrlSFCwordPath<CR>
     nnoremap \ :CtrlSF -R "\b<c-r><c-w>\b"<cr>
+    nnoremap <leader>\ :CtrlSF -R "\b<c-r><c-w>\b" <c-r>=getcwd()<cr>
     nnoremap <leader>f :CtrlSF 
-    nnoremap <leader>t :CtrlSFToggle<CR>
+    nnoremap <leader>q :CtrlSFToggle<CR>
     " let g:ctrlsf_position = 'below'
     " let g:ctrlsf_winsize = '30%'
-    let g:ctrlsf_context = '-B 2 -A 2'
+    let g:ctrlsf_context = '-B 1 -A 1'
     let g:ctrlsf_auto_close = 0
     let g:ctrlsf_confirm_save = 0
     let g:ctrlsf_position = 'bottom'

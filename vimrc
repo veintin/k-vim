@@ -19,12 +19,6 @@
 "       -> 插件配置和具体设置在vimrc.bundles中
 "==========================================
 
-if has("unix")
-  let s:uname = system("echo -n \"$(uname)\"")
-else
-  let s:uname = "Windows"
-endif
-
 "==========================================
 " Initial Plugin 加载插件
 "==========================================
@@ -553,7 +547,7 @@ nnoremap <C-y> 2<C-y>
 "nmap T O<ESC>j
 
 " Quickly close the current window
-nnoremap <leader>q :q<CR>
+"nnoremap <leader>q :q<CR>
 
 " Quickly save the current file
 nnoremap <leader>w :w<CR>
@@ -739,9 +733,4 @@ nnoremap <space> :let @/="\\\<<c-r><c-w>\\\>"\|set hlsearch<CR>
 " tmp
 nnoremap <F8> :!node %<CR>
 
-if s:uname != "Linux"
-    if filereadable(expand("~/.vimrc.bundles.omnisharp"))
-        source ~/.vimrc.bundles.omnisharp
-    endif
-endif
 
