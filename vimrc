@@ -728,7 +728,8 @@ set splitright
 " endif
 
 " space
-nnoremap <space> :let @/="\\\<<c-r><c-w>\\\>"\|set hlsearch<CR>
+nnoremap <space> :let @/="\\\<<c-r><c-w>\\\>\\C"\|set hlsearch<CR>
+nnoremap <leader>r :let @/="\\\<<c-r><c-w>\\\>\\C"\|set hlsearch<CR>:%s/<c-r>//
 
 " tmp
 nnoremap <F8> :!node %<CR>

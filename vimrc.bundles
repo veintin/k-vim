@@ -309,6 +309,13 @@ call plug#end()
     let g:syntastic_check_on_wq=0
     let g:syntastic_enable_highlighting=1
 
+    " cpp
+    " to use c++11, edit "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+    " add '-Wno-c++98-compat', and '-std=c++11'
+    " and modify quickrun setting
+    " let g:syntastic_cpp_compiler = 'clang++'
+    " let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libc++'
+
     " checkers
     " 最轻量
     " let g:syntastic_python_checkers=['pyflakes'] " 使用pyflakes
@@ -398,7 +405,7 @@ call plug#end()
     " let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
     " 跳转到定义处, 分屏打开
-    let g:ycm_goto_buffer_command = 'horizontal-split'
+    "let g:ycm_goto_buffer_command = 'vertical-split'
     " nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
@@ -579,8 +586,8 @@ call plug#end()
 
 " ctrlsf {{{
 "    nmap \ <Plug>CtrlSFCwordPath<CR>
-    nnoremap \ :CtrlSF -R "\b<c-r><c-w>\b"<cr>
-    nnoremap <leader>\ :CtrlSF -R "\b<c-r><c-w>\b" <c-r>=getcwd()<cr>
+    nnoremap \ :CtrlSF -E "-w" "<c-r><c-w>"<cr>
+    nnoremap <leader>\ :CtrlSF -E "-w" "<c-r><c-w>" <c-r>=getcwd()<cr>
     nnoremap <leader>f :CtrlSF 
     nnoremap <leader>q :CtrlSFToggle<CR>
     " let g:ctrlsf_position = 'below'
@@ -796,6 +803,11 @@ call plug#end()
 " ################### 语言相关 ###################
 
 " quickrun {{{
+    " enable c++11
+"    \   "cpp" : {
+"    \       "cmdopt" : "-std=c++11 -stdlib=libc++",
+"    \   }
+
     let g:quickrun_config = {
     \   "_" : {
     \       "outputter" : "message",
@@ -803,7 +815,7 @@ call plug#end()
     \}
 
     let g:quickrun_no_default_key_mappings = 1
-    nmap <Leader>r <Plug>(quickrun)
+"    nmap <Leader>r <Plug>(quickrun)
     map <F10> :QuickRun<CR>
 " }}}
 
@@ -877,4 +889,5 @@ call plug#end()
 "------------------------------------------- end of configs --------------------------------------------
 " Custom by @insane
 
+"Plug 'bps/vim-textobj-python'
 
