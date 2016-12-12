@@ -697,6 +697,7 @@ highlight SpellLocal term=underline cterm=underline
 
 
 " Custom setting by insane
+highlight Underlined term=underline cterm=underline gui=underline
 
 " record open buffers
 " exec 'set viminfo=%,' . &viminfo
