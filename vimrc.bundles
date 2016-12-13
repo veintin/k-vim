@@ -282,6 +282,13 @@ endif
 
 Plug 'tpope/vim-dispatch'
 
+" added by insane >>>>>>>>>>>>>>
+"Plug 'bps/vim-textobj-python'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+Plug 'brookhong/cscope.vim'
+nnoremap  <leader>gg :call CscopeFind('g', expand('<cword>'))<CR>
+" added by insane <<<<<<<<<<<<<<
+
 " Disable OmniSharp in Linux
 if has("unix")
   let s:uname = system("echo -n \"$(uname)\"")
@@ -321,8 +328,8 @@ call plug#end()
     " to use c++11, edit "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
     " add '-Wno-c++98-compat', and '-std=c++11'
     " and modify quickrun setting
-    " let g:syntastic_cpp_compiler = 'clang++'
-    " let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libc++'
+""    let g:syntastic_cpp_compiler = 'clang++'
+""    let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libc++'
 
     " checkers
     " 最轻量
@@ -594,8 +601,16 @@ call plug#end()
 
 " ctrlsf {{{
 "    nmap \ <Plug>CtrlSFCwordPath<CR>
-    nnoremap \ :CtrlSF -E "-w" "<c-r><c-w>"<cr>
-    nnoremap <leader>\ :CtrlSF -E "-w" "<c-r><c-w>" <c-r>=getcwd()<cr>
+    let g:ctrlsf_default_filetype = ""
+    function! GetCtrlSFDefaultFileType()
+        if exists('g:ctrlsf_default_filetype') && !empty(g:ctrlsf_default_filetype)
+            return "-filetype \"" . g:ctrlsf_default_filetype . "\""
+        else
+            return ""
+        endif
+    endfunction
+    nnoremap \ :CtrlSF -S -E "-w" "<c-r><c-w>" <c-r>=GetCtrlSFDefaultFileType()<cr><cr>
+    nnoremap <leader>\ :CtrlSF -E "-w" "<c-r><c-w>" <c-r>=getcwd()<cr> -S <c-r>=GetCtrlSFDefaultFileType()<cr>
     nnoremap <leader>f :CtrlSF 
     nnoremap <leader>q :CtrlSFToggle<CR>
     " let g:ctrlsf_position = 'below'
@@ -895,7 +910,6 @@ call plug#end()
 
 
 "------------------------------------------- end of configs --------------------------------------------
-" Custom by @insane
 
-"Plug 'bps/vim-textobj-python'
+
 
