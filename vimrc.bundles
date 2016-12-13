@@ -301,6 +301,12 @@ call plug#end()
 
 " ################### 基础 ######################
 
+" HiCursorWords {{{
+    let g:HiCursorWords_delay = 200
+    let g:HiCursorWords_hiGroupRegexp = ''
+    let g:HiCursorWords_debugEchoHiName = 0
+" }}}
+
 " syntastic {{{
     " dependence
     " 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck
