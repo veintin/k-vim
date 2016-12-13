@@ -283,10 +283,30 @@ endif
 Plug 'tpope/vim-dispatch'
 
 " added by insane >>>>>>>>>>>>>>
+
 "Plug 'bps/vim-textobj-python'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'brookhong/cscope.vim'
-nnoremap  <leader>gg :call CscopeFind('g', expand('<cword>'))<CR>
+nnoremap  gi :call CscopeFindInteractive(expand('<cword>'))<CR>
+nnoremap  gl :call ToggleLocationList()<CR>
+
+"" s: Find this C symbol
+"nnoremap  <leader>gs :call CscopeFind('s', expand('<cword>'))<CR>
+"" g: Find this definition
+"nnoremap  <leader>gg :call CscopeFind('g', expand('<cword>'))<CR>
+"" d: Find functions called by this function
+"nnoremap  <leader>gd :call CscopeFind('d', expand('<cword>'))<CR>
+"" c: Find functions calling this function
+"nnoremap  <leader>gc :call CscopeFind('c', expand('<cword>'))<CR>
+"" t: Find this text string
+"nnoremap  <leader>gt :call CscopeFind('t', expand('<cword>'))<CR>
+"" e: Find this egrep pattern
+"nnoremap  <leader>ge :call CscopeFind('e', expand('<cword>'))<CR>
+"" f: Find this file
+"nnoremap  <leader>gf :call CscopeFind('f', expand('<cword>'))<CR>
+"" i: Find files #including this file
+"nnoremap  <leader>gi :call CscopeFind('i', expand('<cword>'))<CR>
+
 " added by insane <<<<<<<<<<<<<<
 
 " Disable OmniSharp in Linux
@@ -349,9 +369,11 @@ call plug#end()
     " let g:syntastic_html_checkers=['tidy', 'jshint']
 
     " to see error location list
-    let g:syntastic_always_populate_loc_list = 1
+    " insane: disable this, to avoid clash with lcscope, also need this: let g:syntastic_auto_jump = 0
+    let g:syntastic_always_populate_loc_list = 0
     let g:syntastic_enable_signs = 1
     let g:syntastic_auto_loc_list = 0
+    " insane: disable this, to avoid clash with lcscope
     let g:syntastic_auto_jump = 0
     let g:syntastic_loc_list_height = 5
 
