@@ -578,13 +578,13 @@ au BufWinEnter *.php set mps-=<:>
 
 
 " 保存python文件时删除多余空格
-fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+"fun! <SID>StripTrailingWhitespaces()
+"    let l = line(".")
+"    let c = col(".")
+"    %s/\s\+$//e
+"    call cursor(l, c)
+"endfun
+"autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 
 " 定义函数AutoSetFileHead，自动插入文件头
@@ -718,7 +718,7 @@ nnoremap <leader>j :YcmCompleter GetDoc<CR>
 set splitright
 
 " switch cursor between box and vertical bar
-" if exists('$ITERM_PROFILE')
+if exists('$ITERM_PROFILE')
     if exists('$TMUX')
         let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
         let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -726,13 +726,26 @@ set splitright
         let &t_SI = "\<Esc>]50;CursorShape=1\x7"
         let &t_EI = "\<Esc>]50;CursorShape=0\x7"
     endif
+endif
+" if has("autocmd")
+"   au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+"   au InsertEnter,InsertChange *
+"     \ if v:insertmode == 'i' | 
+"     \   silent execute '!echo -ne "\e[5 q"' | redraw! |
+"     \ elseif v:insertmode == 'r' |
+"     \   silent execute '!echo -ne "\e[3 q"' | redraw! |
+"     \ endif
+"   au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
 " endif
 
 " space
 nnoremap <space> :let @/="\\\<<c-r><c-w>\\\>\\C"\|set hlsearch<CR>
-nnoremap <leader>r :let @/="\\\<<c-r><c-w>\\\>\\C"\|set hlsearch<CR>:%s/<c-r>//
+nnoremap <leader>r :let @/="\\\<<c-r><c-w>\\\>\\C"\|set hlsearch<CR>:%s/<c-r>//<c-r><c-w>
 
+" lua
+nnoremap <F7> :!luaglobalcheck %<CR>
+nnoremap <F8> :!lualocalglobal.lua %<CR>
 " tmp
-nnoremap <F8> :!node %<CR>
+" nnoremap <F8> :!node %<CR>
 
 set nowrapscan

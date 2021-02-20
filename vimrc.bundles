@@ -591,12 +591,13 @@ call plug#end()
     let g:ctrlp_map = '<c-p>'
     " let g:ctrlp_map = '<leader>,'
     let g:ctrlp_cmd = 'CtrlP'
-    " map <leader>f :CtrlPMRU<CR>
+    map <leader>m :CtrlPMRU<CR>
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
         \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc|meta)$',
         \ }
-    let g:ctrlp_working_path_mode='ra'
+    " let g:ctrlp_working_path_mode='ra'
+    let g:ctrlp_working_path_mode='a'
     let g:ctrlp_match_window_bottom=1
     let g:ctrlp_max_height=15
     let g:ctrlp_match_window_reversed=0
@@ -646,7 +647,8 @@ call plug#end()
     let g:ctrlsf_mapping = {
         \ "open"  : ["<cr>", "o"],
         \ "openb" : "O",
-        \ "split" : "<c-o>",
+        \ "split" : "<c-s>",
+        \ "vsplit" : "<c-v>",
         \ "tab"   : "t",
         \ "tabb"  : "T",
         \ "prevw" : "p",
