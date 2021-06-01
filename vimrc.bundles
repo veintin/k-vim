@@ -33,6 +33,9 @@ call plug#begin('~/.vim/bundle')
 
 " 移动光标到插件名上, 使用'#'快速跳转到每个插件的配置处
 
+" HiCursorWords
+Plug 'veintin/HiCursorWords'
+
 " syntastic
 Plug 'scrooloose/syntastic'
 
@@ -105,7 +108,7 @@ Plug 'ctrlpvim/ctrlp.vim' | Plug 'tacahiroy/ctrlp-funky'
 " t       在tab中打开(建议)
 " T - Lkie t but focus CtrlSF window instead of opened new tab.
 " q - Quit CtrlSF window.
-Plug 'dyng/ctrlsf.vim'
+Plug 'veintin/ctrlsf.vim'
 " incsearch
 " Plug 'haya14busa/incsearch.vim'
 " map /  <Plug>(incsearch-forward)
@@ -277,13 +280,19 @@ if count(g:bundle_groups, 'beta')
 endif
 
 Plug 'tpope/vim-dispatch'
-Plug 'OmniSharp/omnisharp-vim'
+"Plug 'OmniSharp/omnisharp-vim'
 
 " Add plugins to &runtimepath
 call plug#end()
 
 
 " ################### 基础 ######################
+
+" HiCursorWords {{{
+    let g:HiCursorWords_delay = 200
+    let g:HiCursorWords_hiGroupRegexp = ''
+    let g:HiCursorWords_debugEchoHiName = 0
+" }}}
 
 " syntastic {{{
     " dependence
@@ -378,7 +387,7 @@ call plug#end()
     let g:ycm_seed_identifiers_with_syntax=1
 
     " 设置python解释器路径，解决 tensorflow virtualenv 下ycmd启动失败的问题
-    let g:ycm_server_python_interpreter = "/usr/local/bin/python"
+    " let g:ycm_server_python_interpreter = "/usr/local/bin/python"
 
     " let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
@@ -405,6 +414,8 @@ call plug#end()
     let g:ycm_filetype_blacklist = {
         \ 'tagbar' : 1,
         \ 'gitcommit' : 1,
+        \ '__CtrlSF__' : 1,
+        \ 'ctrlsf' : 1,
         \}
 " }}}
 
@@ -535,9 +546,13 @@ call plug#end()
         \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
         \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc|meta)$',
         \ }
-    let g:ctrlp_working_path_mode='ra'
+    let g:ctrlp_by_filename = 1
+    " let g:ctrlp_working_path_mode='ra'
+    let g:ctrlp_working_path_mode='a'
     let g:ctrlp_match_window_bottom=1
-    let g:ctrlp_max_height=15
+    let g:ctrlp_max_height=40
+    let g:ctrlp_max_files=0
+""    au VimEnter,VimResized * let g:ctrlp_max_height = &lines
     let g:ctrlp_match_window_reversed=0
     let g:ctrlp_mruf_max=500
     let g:ctrlp_follow_symlinks=1
@@ -561,19 +576,33 @@ call plug#end()
 
 
 " ctrlsf {{{
-    nmap \ <Plug>CtrlSFCwordPath<CR>
+    "nmap \ <Plug>CtrlSFCwordPath<CR>
+    let g:ctrlsf_default_filetype = ""
+    function! GetCtrlSFDefaultFileType()
+        if exists('g:ctrlsf_default_filetype') && !empty(g:ctrlsf_default_filetype)
+            return "-filetype \"" . g:ctrlsf_default_filetype . "\""
+        else
+            return ""
+        endif
+    endfunction
+    nnoremap \ :CtrlSF -S -E "-w" "<c-r><c-w>" <c-r>=GetCtrlSFDefaultFileType()<cr><cr>
+    nnoremap <leader>\ :CtrlSF -E "-w" "<c-r><c-w>" <c-r>=getcwd()<cr> -S <c-r>=GetCtrlSFDefaultFileType()<cr>
     nnoremap <leader>f :CtrlSF 
-    nnoremap <leader>t :CtrlSFToggle<CR>
+    nnoremap <leader>q :CtrlSFToggle<CR>
     " let g:ctrlsf_position = 'below'
     " let g:ctrlsf_winsize = '30%'
+    let g:ctrlsf_context = '-B 1 -A 1'
     let g:ctrlsf_auto_close = 0
     let g:ctrlsf_confirm_save = 0
+    let g:ctrlsf_ackprg = "ag"
+    let g:ctrlsf_position = 'bottom'
     " Note: cannot use <CR> or <C-m> for open
     " Use : <sapce> or <tab>
     let g:ctrlsf_mapping = {
         \ "open"  : ["<cr>", "o"],
         \ "openb" : "O",
         \ "split" : "<c-o>",
+        \ "vsplit": "<c-v>",
         \ "tab"   : "t",
         \ "tabb"  : "T",
         \ "prevw" : "p",

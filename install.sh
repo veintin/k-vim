@@ -91,10 +91,10 @@ cd $CURRENT_DIR/bundle/YouCompleteMe/
 git submodule update --init --recursive
 if [ `which clang` ]   # check system clang
 then
-    python install.py --clang-completer --tern-completer # --system-libclang # use system clang
+    python install.py --clang-completer --tern-completer # --omnisharp-completer # --system-libclang # use system clang
     # As YouCompleteMe recommended, better not use system-libclang
 else
-    python install.py --clang-completer --tern-completer
+    python install.py --clang-completer --tern-completer # --omnisharp-completer
 fi
 
 echo "Install Done!"

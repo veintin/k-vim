@@ -20,6 +20,36 @@
 "==========================================
 
 "==========================================
+" FileEncode Settings 文件编码,格式
+"==========================================
+set nocompatible
+if has('win32')
+"    source $VIMRUNTIME/mswin.vim
+"    behave mswin
+endif
+" 设置新文件的编码为 UTF-8
+set encoding=utf-8
+" 自动判断编码时，依次尝试以下编码：
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set helplang=cn
+set langmenu=zh_CN
+let $LANG = 'zh_CN.UTF-8'
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+"set enc=2byte-gb18030
+" 下面这句只影响普通模式 (非图形界面) 下的 Vim
+"set termencoding=utf-8
+
+" Use Unix as the standard file type
+"set ffs=unix,dos,mac
+
+" 如遇Unicode值大于255的文本，不必等到空格再折行
+set formatoptions+=m
+" 合并两行中文时，不在中间加空格
+set formatoptions+=B
+
+"==========================================
 " Initial Plugin 加载插件
 "==========================================
 
@@ -254,27 +284,6 @@ if &term =~ '256color'
   " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
   set t_ut=
 endif
-
-"==========================================
-" FileEncode Settings 文件编码,格式
-"==========================================
-" 设置新文件的编码为 UTF-8
-set encoding=utf-8
-" 自动判断编码时，依次尝试以下编码：
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
-set helplang=cn
-"set langmenu=zh_CN.UTF-8
-"set enc=2byte-gb18030
-" 下面这句只影响普通模式 (非图形界面) 下的 Vim
-set termencoding=utf-8
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
-" 如遇Unicode值大于255的文本，不必等到空格再折行
-set formatoptions+=m
-" 合并两行中文时，不在中间加空格
-set formatoptions+=B
 
 
 "==========================================
@@ -547,7 +556,7 @@ nnoremap <C-y> 2<C-y>
 "nmap T O<ESC>j
 
 " Quickly close the current window
-nnoremap <leader>q :q<CR>
+"nnoremap <leader>q :q<CR>
 
 " Quickly save the current file
 nnoremap <leader>w :w<CR>
@@ -650,7 +659,7 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guifont=Monaco:h12
+    "set guifont=Monaco:h12
     if has("gui_gtk2")   "GTK2
         set guifont=Monaco\ 12,Monospace\ 12
     endif
@@ -697,6 +706,7 @@ highlight SpellLocal term=underline cterm=underline
 
 
 " Custom setting by insane
+highlight Underlined term=underline cterm=underline gui=underline
 
 " record open buffers
 " exec 'set viminfo=%,' . &viminfo
@@ -728,12 +738,29 @@ set splitright
 " endif
 
 " space
-nnoremap <space> :let @/="\\\<<c-r><c-w>\\\>"\|set hlsearch<CR>
+nnoremap <space> :let @/="\\\<<c-r><c-w>\\\>\\C"\|set hlsearch<CR>
+nnoremap <leader>r :let @/="\\\<<c-r><c-w>\\\>\\C"\|set hlsearch<CR>:%s/<c-r>//<c-r><c-w>
 
 " tmp
-nnoremap <F8> :!node %<CR>
+nnoremap <F7> :!luaglobalcheck.bat %<CR>
+nnoremap <F8> :!lua C:\bin\lualocalglobal.lua %<CR>
+" nnoremap <F8> :!luac -p -l % | grep ETTABUP.*_ENV<CR>
 
-if filereadable(expand("~/.vimrc.bundles.omnisharp"))
-    source ~/.vimrc.bundles.omnisharp
-endif
+"if filereadable(expand("~/.vimrc.bundles.omnisharp"))
+""    source ~/.vimrc.bundles.omnisharp
+"endif
+"
+autocmd GUIEnter * simalt ~x
+
+highlight Comment gui=NONE
+
+set nowrapscan
+
+function! OnStartUp()
+    if empty(expand('%:p'))
+        cd E:\LH3
+        NERDTree
+    endif
+endfunc
+autocmd VimEnter * call OnStartUp()
 
